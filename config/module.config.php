@@ -19,6 +19,10 @@
 
 namespace DompdfModule;
 
+use DompdfModule\Service\DOMPDFFactory;
+use DompdfModule\Mvc\Service\ViewPdfRendererFactory;
+use DompdfModule\Mvc\Service\ViewPdfStrategyFactory;
+
 return [
     'dompdf_module' => [
         /**
@@ -277,9 +281,9 @@ return [
             'Dompdf' => false
         ],
         'factories' => [
-            'Dompdf'          => Service\DompdfFactory::class,
-            'ViewPdfRenderer' => Mvc\Service\ViewPdfRendererFactory::class,
-            'ViewPdfStrategy' => Mvc\Service\ViewPdfStrategyFactory::class
+            'Dompdf'          => DompdfFactory::class,
+            'ViewPdfRenderer' => ViewPdfRendererFactory::class,
+            'ViewPdfStrategy' => ViewPdfStrategyFactory::class
         ]
     ]
 ];

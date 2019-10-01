@@ -23,10 +23,9 @@ use DompdfModule\View\Model;
 use DompdfModule\View\Renderer\PdfRenderer;
 use Zend\EventManager\AbstractListenerAggregate;
 use Zend\EventManager\EventManagerInterface;
-use Zend\EventManager\ListenerAggregateInterface;
 use Zend\View\ViewEvent;
 
-class PdfStrategy extends AbstractListenerAggregate implements ListenerAggregateInterface
+class PdfStrategy extends AbstractListenerAggregate
 {
     /**
      * @var PdfRenderer
@@ -36,7 +35,8 @@ class PdfStrategy extends AbstractListenerAggregate implements ListenerAggregate
     /**
      * Constructor
      *
-     * @param  PdfRenderer $renderer
+     * @param PdfRenderer $renderer
+     *
      * @return void
      */
     public function __construct(PdfRenderer $renderer)
@@ -45,11 +45,7 @@ class PdfStrategy extends AbstractListenerAggregate implements ListenerAggregate
     }
 
     /**
-     * Attach the aggregate to the specified event manager
-     *
-     * @param  EventManagerInterface $events
-     * @param  int $priority
-     * @return void
+     * {@inheritdoc}
      */
     public function attach(EventManagerInterface $events, $priority = 1)
     {
@@ -60,13 +56,14 @@ class PdfStrategy extends AbstractListenerAggregate implements ListenerAggregate
     /**
      * Detect if we should use the PdfRenderer based on model type
      *
-     * @param  ViewEvent $event
+     * @param ViewEvent $event
+     *
      * @return null|PdfRenderer
      */
     public function selectRenderer(ViewEvent $event)
     {
         $model = $event->getModel();
-        
+
         if ($model instanceof Model\PdfModel) {
             return $this->renderer;
         }
@@ -77,8 +74,10 @@ class PdfStrategy extends AbstractListenerAggregate implements ListenerAggregate
     /**
      * Inject the response with the PDF payload and appropriate Content-Type header
      *
-     * @param  ViewEvent $e
+     * @param ViewEvent $e
+     *
      * @return void
+     * @internal param ViewEvent $e
      */
     public function injectResponse(ViewEvent $event)
     {
@@ -93,7 +92,7 @@ class PdfStrategy extends AbstractListenerAggregate implements ListenerAggregate
             // No output to display. Good bye!
             return;
         }
-        
+
         $response = $event->getResponse();
         $response->setContent($result);
 

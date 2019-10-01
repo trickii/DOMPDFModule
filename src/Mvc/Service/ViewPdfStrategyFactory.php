@@ -33,12 +33,17 @@ class ViewPdfStrategyFactory implements FactoryInterface
      *
      * @SuppressWarnings("unused")
      * @param ContainerInterface $container
-     * @param string $requestedName
-     * @param array|null $options
+     * @param string             $requestedName
+     * @param array|null         $options
+     *
      * @return PdfStrategy
      */
     public function __invoke(ContainerInterface $container, $requestedName, array $options = null)
     {
-        return new PdfStrategy($container->get('ViewPdfRenderer'));
+        $pdfRenderer = $container->get('ViewPdfRenderer');
+
+        $pdfStrategy = new PdfStrategy($pdfRenderer);
+
+        return $pdfStrategy;
     }
 }

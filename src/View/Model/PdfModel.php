@@ -23,20 +23,21 @@ use Zend\View\Model\ViewModel;
 
 class PdfModel extends ViewModel
 {
-    const DISPLAY_INLINE = 'inline';
+    const DISPLAY_INLINE     = 'inline';
     const DISPLAY_ATTACHMENT = 'attachment';
-    const DEFAULT_FILE_NAME = 'untitled.pdf';
+    const DEFAULT_FILE_NAME  = 'untitled.pdf';
 
     /**
      * Renderer options
+     *
      * @var array
      */
     protected $options = [
-        'paperSize' => '8x11',
+        'paperSize'        => '8x11',
         'paperOrientation' => 'portrait',
-        'basePath' => '/',
-        'fileName' => self::DEFAULT_FILE_NAME,
-        'display' => self::DISPLAY_INLINE
+        'basePath'         => '/',
+        'fileName'         => self::DEFAULT_FILE_NAME,
+        'display'          => self::DISPLAY_INLINE,
     ];
 
     /**

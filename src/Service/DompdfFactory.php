@@ -31,13 +31,15 @@ class DompdfFactory implements FactoryInterface
      *
      * @SuppressWarnings("unused")
      * @param ContainerInterface $container
-     * @param string $requestedName
-     * @param array|null $options
+     * @param string             $requestedName
+     * @param array|null         $options
+     *
      * @return Dompdf
      */
     public function __invoke(ContainerInterface $container, $requestedName, array $options = null)
     {
-        $moduleConfig = $container->get('config')['dompdf_module'];
+        $config       = $container->get('config');
+        $moduleConfig = $config['dompdf_module'];
 
         $options = [
             'temp_dir'                   => $moduleConfig['temporary_directory'],
@@ -64,9 +66,10 @@ class DompdfFactory implements FactoryInterface
             'debug_layout_inline'        => $moduleConfig['debug_layout_inline'],
             'debug_layout_padding_box'   => $moduleConfig['debug_layout_padding_box'],
             'pdf_backend'                => $moduleConfig['pdf_backend'],
-            'pdflib_license'             => $moduleConfig['pdflib_license']
+            'pdflib_license'             => $moduleConfig['pdflib_license'],
         ];
+        $options = new Options($options);
 
-        return new Dompdf(new Options($options));
+        return new Dompdf($options);
     }
 }

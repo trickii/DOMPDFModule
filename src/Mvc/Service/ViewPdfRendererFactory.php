@@ -31,15 +31,26 @@ class ViewPdfRendererFactory implements FactoryInterface
      *
      * @SuppressWarnings("unused")
      * @param ContainerInterface $container
-     * @param string $requestedName
-     * @param array|null $options
+     * @param string             $requestedName
+     * @param array|null         $options
+     *
      * @return PdfRenderer
      */
     public function __invoke(ContainerInterface $container, $requestedName, array $options = null)
     {
-        return (new PdfRenderer())
-            ->setResolver($container->get('ViewResolver'))
-            ->setHtmlRenderer($container->get('ViewRenderer'))
-            ->setEngine($container->get('Dompdf'));
+        /**
+         * @var $resolver \Zend\View\Resolver\AggregateResolver
+         * @var $renderer \Zend\View\Renderer\PhpRenderer
+         */
+        $resolver = $container->get('ViewResolver');
+        $renderer = $container->get('ViewRenderer');
+
+        $pdfRenderer = new PdfRenderer();
+
+        $pdfRenderer->setResolver($resolver);
+        $pdfRenderer->setHtmlRenderer($renderer);
+        $pdfRenderer->setEngine($container->get('Dompdf'));
+
+        return $pdfRenderer;
     }
 }

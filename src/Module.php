@@ -24,7 +24,7 @@ use Zend\ModuleManager\Feature\ConfigProviderInterface;
 class Module implements ConfigProviderInterface
 {
     /**
-     * @return array
+     * {@inheritdoc}
      */
     public function getConfig()
     {

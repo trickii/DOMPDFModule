@@ -44,11 +44,13 @@ class PdfRenderer implements Renderer
 
     /**
      * @param Renderer $renderer
+     *
      * @return $this
      */
     public function setHtmlRenderer(Renderer $renderer)
     {
         $this->htmlRenderer = $renderer;
+
         return $this;
     }
 
@@ -62,11 +64,13 @@ class PdfRenderer implements Renderer
 
     /**
      * @param Dompdf $dompdf
+     *
      * @return $this
      */
     public function setEngine(Dompdf $dompdf)
     {
         $this->dompdf = $dompdf;
+
         return $this;
     }
 
@@ -80,40 +84,44 @@ class PdfRenderer implements Renderer
 
     /**
      * @param Resolver $resolver
+     *
      * @return $this
      */
     public function setResolver(Resolver $resolver)
     {
         $this->resolver = $resolver;
+
         return $this;
     }
-    
+
     /**
      * {@inheritdoc}
      */
     public function render($nameOrModel, $values = null)
     {
         if (!($nameOrModel instanceof PdfModel)) {
-            throw new InvalidArgumentException(sprintf(
-                '%s expects a PdfModel as the first argument; received "%s"',
-                __METHOD__,
-                (is_object($nameOrModel) ? get_class($nameOrModel) : gettype($nameOrModel))
-            ));
+            throw new InvalidArgumentException(
+                sprintf(
+                    '%s expects a PdfModel as the first argument; received "%s"',
+                    __METHOD__,
+                    (is_object($nameOrModel) ? get_class($nameOrModel) : gettype($nameOrModel))
+                )
+            );
         }
 
         $html = $this->getHtmlRenderer()->render($nameOrModel, $values);
-        
-        $paperSize = $nameOrModel->getOption('paperSize');
+
+        $paperSize        = $nameOrModel->getOption('paperSize');
         $paperOrientation = $nameOrModel->getOption('paperOrientation');
-        $basePath = $nameOrModel->getOption('basePath');
-        
+        $basePath         = $nameOrModel->getOption('basePath');
+
         $pdf = $this->getEngine();
         $pdf->setPaper($paperSize, $paperOrientation);
         $pdf->setBasePath($basePath);
-        
+
         $pdf->loadHtml($html);
         $pdf->render();
-        
+
         return $pdf->output();
     }
 }
